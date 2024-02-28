@@ -4,6 +4,7 @@ const { URL_Shortner } = require('../models/urlShortner.model');
 exports.shortURL = async (req, res) => {
     try {
         const { url } = req.body;
+        console.log(req.body)
         if (!url) return res.json({ data: "URL Must be Required" })
         const sID = shortid()
         const newURLShortner = new URL_Shortner({
@@ -11,10 +12,11 @@ exports.shortURL = async (req, res) => {
             redirectURL: url,
             visitHistory: []
         });
-        const response = await newURLShortner.save();
-        res.json({
-            data: response.shortID
-        })
+        await newURLShortner.save();
+        // res.json({
+        //     data: response.shortID
+        // })
+        res.redirect('/');
     } catch (error) {
         res.json({
             data: error.message
@@ -29,7 +31,7 @@ exports.url = async (req, res) => {
 
         if (!checkSID) return res.json({ data: "Invalid shortID" });
 
-        const updateSID = await URL_Shortner.updateOne({ shortID: sID }, {
+        await URL_Shortner.updateOne({ shortID: sID }, {
             $push: {
                 visitHistory: {
                     timestamp: Date.now()

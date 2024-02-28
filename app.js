@@ -3,17 +3,22 @@ const express = require('express');
 const dbConnection = require('./utils/dbConnect');
 const app = express();
 const urlShortnerRouter = require('./routes/urlShortner');
-
+const ejs = require('ejs');
+const path = require('path');
+const staticRouter = require('./routes/staticRoute');
 
 // Database Connection 
 dbConnection(process.env.MONGO_URL);
 
 // Middlewares
-app.use(express.urlencoded())
+app.set('view engine', ejs);
+app.set("views", path.resolve(__dirname, "./views"));
+app.use(express.urlencoded({ extended: false }))
 app.use(express.json());
 
 // Routes
-app.use("/",urlShortnerRouter)
+app.use("/", staticRouter);
+app.use("/url", urlShortnerRouter);
 
 // Server Listening
 app.listen(process.env.PORT, () => {

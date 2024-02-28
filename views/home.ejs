@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Shortener</title>
+</head>
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .url {
+    padding: 20px;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <form action="/url/shortURL" method="post">
+      <div class="url">
+        <label for="url">URL</label>
+        <input type="text" placeholder="Enter Valid URL" name="url" required>
+        <button>Short Now</button>
+      </div>
+    </form>
+
+    <% if (locals.data) { %>
+    <!-- Table  -->
+    <table border="1">
+      <thead>
+        <th>S.No</th>
+        <th>Original URL</th>
+        <th>Shortener URL</th>
+        <th>Total Clicks</th>
+        <th>Complete Link</th>
+      </thead>
+      <tbody>
+
+        <% data.forEach((e,idx) => { %>
+        <tr>
+          <td><%= idx +1 %></td>
+          <td><%= e.redirectURL %></td>
+          <td><%= e.shortID %></td>
+          <td><%= e.visitHistory.length %></td>
+          <td><a href="/url/<%= e.shortID%>" target="_blank">http://localhost:8080/url/<%= e.shortID%></a></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <% } %>
+
+
+  </div>
+</body>
+
+</html>
