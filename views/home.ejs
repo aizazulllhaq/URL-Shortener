@@ -46,16 +46,13 @@
           <td><%= idx +1 %></td>
           <td><%= e.redirectURL %></td>
           <td><%= e.shortID %></td>
-          <td><%= e.visitHistory.length %></td>
+          <td><%= e.visitHistory.length %> <a href="/url/Analytics/<%= e.shortID %>">See Detail</a></td>
           <td><a href="/url/<%= e.shortID%>" target="_blank">http://localhost:8080/url/<%= e.shortID%></a></td>
         </tr>
         <% }) %>
       </tbody>
     </table>
-
     <% } %>
-
-
   </div>
 </body>
 

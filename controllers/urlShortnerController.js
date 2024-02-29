@@ -4,13 +4,13 @@ const { URL_Shortner } = require('../models/urlShortner.model');
 exports.shortURL = async (req, res) => {
     try {
         const { url } = req.body;
-        console.log(req.body)
         if (!url) return res.json({ data: "URL Must be Required" })
         const sID = shortid()
         const newURLShortner = new URL_Shortner({
             shortID: sID,
             redirectURL: url,
-            visitHistory: []
+            visitHistory: [],
+            createdBy: req.user.id
         });
         await newURLShortner.save();
         // res.json({
