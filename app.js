@@ -9,6 +9,7 @@ const staticRouter = require('./routes/staticRoute');
 const { checkAuthenticatedUser, restrictTo } = require('./middlewares/Auth');
 const cookieParser = require('cookie-parser');
 const userRouter = require('./routes/userRoute');
+const adminRouter = require('./routes/adminRoute');
 
 // Database Connection 
 dbConnection(process.env.MONGO_URL);
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(checkAuthenticatedUser);
 
 // Routes
+app.use('/admin', restrictTo(["ADMIN"]), adminRouter);
 app.use('/user', userRouter) // for every non-loggedIn 
 app.use("/", restrictTo(["NORMAL", "ADMIN"]), staticRouter); // for loggedIn users , show URLs with specific USER
 app.use("/url", restrictTo(["NORMAL", "ADMIN"]), urlShortnerRouter); // for loggedIn users 
